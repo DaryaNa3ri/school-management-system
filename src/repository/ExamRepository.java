@@ -1,5 +1,4 @@
 package repository;
 
-public class ExamRepository {
-
+public interface ExamRepository {
 }

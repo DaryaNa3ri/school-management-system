@@ -1,9 +1,12 @@
-package model;
+package model.dto;
+
+import model.Teacher;
 
 import java.sql.Date;
 import java.util.Objects;
 
-public class Teacher {
+public class SaveTeacherRequest {
+
     private Integer teacherId;
     private String firstName;
     private String lastName;
@@ -11,7 +14,7 @@ public class Teacher {
     private String nationalCode;
     private int courseId;
 
-    public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode, int courseId) {
+    public SaveTeacherRequest(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode, int courseId) {
         this.teacherId = teacherId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -68,21 +71,6 @@ public class Teacher {
         this.courseId = courseId;
     }
 
-
-
-//id and national id
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teacher teacher = (Teacher) o;
-        return teacherId == teacher.teacherId && Objects.equals(nationalCode, teacher.nationalCode);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(teacherId, nationalCode);
-    }
 
     @Override
     public String toString() {

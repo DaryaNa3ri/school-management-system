@@ -1,23 +1,22 @@
-import model.Student;
+import com.sun.xml.internal.messaging.saaj.util.TeeInputStream;
 import model.Teacher;
-import model.dto.TeachersCourseDto;
-import repository.TeacherRepository;
-import serivce.CourseService;
-import serivce.StudentService;
-import serivce.TeacherService;
-import util.Database;
-
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+import repository.impl.TeacherRepositoryImpl;
+import serivce.impl.TeacherServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
 
-        TeacherService teacherService = new TeacherService();
-        teacherService.printTeachersByFirstName("Akbar");
+        TeacherServiceImpl teacherServiceImpl = new TeacherServiceImpl();
+        teacherServiceImpl.printTeachersByFirstName("Akbar");
 
+        TeacherRepositoryImpl teacherRepository = new TeacherRepositoryImpl();
+        try {
+        Teacher teacher = teacherRepository.findTeacherById(2);
+            System.out.println(teacher);
+
+        }catch (Exception e){
+            System.out.println("ridi");
+        }
 
 
         /*INSERT INTO students (first_name, last_name, dob, national_id, gpu)
