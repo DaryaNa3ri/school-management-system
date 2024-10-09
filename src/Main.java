@@ -1,21 +1,18 @@
 import com.sun.xml.internal.messaging.saaj.util.TeeInputStream;
 import model.Teacher;
+import model.dto.SaveTeacherRequest;
+import model.dto.TeacherResponse;
 import repository.impl.TeacherRepositoryImpl;
 import serivce.impl.TeacherServiceImpl;
+
+import java.sql.Date;
 
 public class Main {
     public static void main(String[] args) {
 
         TeacherServiceImpl teacherServiceImpl = new TeacherServiceImpl();
-        teacherServiceImpl.printTeachersByFirstName("Akbar");
-
-        TeacherRepositoryImpl teacherRepository = new TeacherRepositoryImpl();
-        try {
-        Teacher teacher = teacherRepository.findTeacherById(2);
-            System.out.println(teacher);
-
-        }catch (Exception e){
-            System.out.println("ridi");
+        for (TeacherResponse teacherResponse : teacherServiceImpl.getAllTeachers()) {
+            System.out.println(teacherResponse);
         }
 
 

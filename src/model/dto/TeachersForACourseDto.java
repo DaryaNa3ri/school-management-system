@@ -1,12 +1,10 @@
 package model.dto;
 
-import util.Database;
-
-public class TeachersCourseDto {
+public class TeachersForACourseDto {
     private String teacherName;
     private String courseName;
 
-    public TeachersCourseDto(String teacherName, String courseName) {
+    public TeachersForACourseDto(String teacherName, String courseName) {
         this.teacherName = teacherName;
         this.courseName = courseName;
     }
@@ -29,7 +27,7 @@ public class TeachersCourseDto {
 
     @Override
     public String toString() {
-        return "TeachersCourseDto{" +
+        return "TeachersForACourseDto{" +
                 "teacherName='" + teacherName + '\'' +
                 ", courseName='" + courseName + '\'' +
                 '}';

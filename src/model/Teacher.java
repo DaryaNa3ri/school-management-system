@@ -1,7 +1,7 @@
 package model;
 
 import java.sql.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class Teacher {
     private Integer teacherId;
@@ -9,15 +9,33 @@ public class Teacher {
     private String lastName;
     private Date dob;
     private String nationalCode;
-    private int courseId;
+    private Course course;
+    private Set<Student> students;
+    private List<Exam> exams;
 
-    public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode, int courseId) {
+    public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode) {
         this.teacherId = teacherId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.nationalCode = nationalCode;
-        this.courseId = courseId;
+    }
+
+    public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode, Course course, Set<Student> students, List<Exam> exams) {
+        this.teacherId = teacherId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.nationalCode = nationalCode;
+        this.course = course;
+        if (students != null)
+            this.students = students;
+        else
+            this.students = new HashSet<>();
+        if (exams != null)
+            this.exams = exams;
+        else
+            this.exams = new ArrayList<>();
     }
 
     public Integer getTeacherId() {
@@ -60,23 +78,36 @@ public class Teacher {
         this.nationalCode = nationalCode;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
+    public Set<Student> getStudents() {
+        return students;
+    }
 
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
 
-//id and national id
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Teacher teacher = (Teacher) o;
-        return teacherId == teacher.teacherId && Objects.equals(nationalCode, teacher.nationalCode);
+        return Objects.equals(teacherId, teacher.teacherId) && Objects.equals(nationalCode, teacher.nationalCode);
     }
 
     @Override
@@ -86,13 +117,14 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" +
+        return
                 "teacherId=" + teacherId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dob=" + dob +
                 ", nationalCode='" + nationalCode + '\'' +
-                ", courseId=" + courseId +
-                '}';
+                ", course=" + course +
+                ", students=" + students +
+                ", exams=" + exams;
     }
 }

@@ -1,17 +1,21 @@
 package model;
 
+import javax.security.auth.Subject;
 import java.sql.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class Student {
-    private long studentId;
+    private Integer studentId;
     private String firstName;
     private String lastName;
     private Date dob;
     private String nationalCode;
-    private double gpu;
+    private Double gpu;
+    private List<Exam> exams;
+    private Set<Course> courses;
+    private Set<Teacher> teachers;
 
-    public Student(long studentId, String firstName, String lastName, Date dob, String nationalCode, double gpu) {
+    public Student(Integer studentId, String firstName, String lastName, Date dob, String nationalCode, Double gpu) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,14 +24,32 @@ public class Student {
         this.gpu = gpu;
     }
 
-    public Student() {
+    public Student(Integer studentId, String firstName, String lastName, Date dob, String nationalCode, Double gpu, List<Exam> exams, Set<Course> courses, Set<Teacher> teachers) {
+        this.studentId = studentId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.nationalCode = nationalCode;
+        this.gpu = gpu;
+        if (exams != null)
+            this.exams = exams;
+        else
+            this.exams = new ArrayList<>();
+        if (courses != null)
+            this.courses = courses;
+        else
+            this.courses = new HashSet<>();
+        if (teachers != null)
+            this.teachers = teachers;
+        else
+            this.teachers = new HashSet<>();
     }
 
-    public long getStudentId() {
+    public Integer getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(long studentId) {
+    public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
 
@@ -63,21 +85,44 @@ public class Student {
         this.nationalCode = nationalCode;
     }
 
-    public double getGpu() {
+    public Double getGpu() {
         return gpu;
     }
 
-    public void setGpu(double gpu) {
+    public void setGpu(Double gpu) {
         this.gpu = gpu;
     }
 
-    //id and national code
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public Set<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(Set<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return studentId == student.studentId && Objects.equals(nationalCode, student.nationalCode);
+        return Objects.equals(studentId, student.studentId) && Objects.equals(nationalCode, student.nationalCode);
     }
 
     @Override
@@ -93,6 +138,9 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", dob=" + dob +
                 ", nationalCode='" + nationalCode + '\'' +
-                ", gpu=" + gpu ;
+                ", gpu=" + gpu +
+                ", exams=" + exams +
+                ", courses=" + courses +
+                ", teachers=" + teachers;
     }
 }

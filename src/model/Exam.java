@@ -1,37 +1,72 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Exam {
-    private int exam_id;
-    private Date exam_date;
+    private Integer examId;
+    private String examTitle;
+    private Integer examUnit;
+    private Date examDate;
     private Integer grade;
     private Teacher teacher;
     private Course course;
+    private Set<Student> students;
 
-    public Exam(int exam_id, Date exam_date, Integer grade, Teacher teacher, Course course) {
-        this.exam_id = exam_id;
-        this.exam_date = exam_date;
+    public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Integer grade) {
+        this.examId = examId;
+        this.examTitle = examTitle;
+        this.examUnit = examUnit;
+        this.examDate = examDate;
+        this.grade = grade;
+    }
+
+    public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Integer grade, Teacher teacher, Course course, Set<Student> students) {
+        this.examId = examId;
+        this.examTitle = examTitle;
+        this.examUnit = examUnit;
+        this.examDate = examDate;
         this.grade = grade;
         this.teacher = teacher;
         this.course = course;
+        if (students != null)
+            this.students = students;
+        else
+            this.students = new HashSet<>();
     }
 
-    public int getExam_id() {
-        return exam_id;
+    public Integer getExamId() {
+        return examId;
     }
 
-    public void setExam_id(int exam_id) {
-        this.exam_id = exam_id;
+    public void setExamId(Integer examId) {
+        this.examId = examId;
     }
 
-    public Date getExam_date() {
-        return exam_date;
+    public String getExamTitle() {
+        return examTitle;
     }
 
-    public void setExam_date(Date exam_date) {
-        this.exam_date = exam_date;
+    public void setExamTitle(String examTitle) {
+        this.examTitle = examTitle;
+    }
+
+    public Integer getExamUnit() {
+        return examUnit;
+    }
+
+    public void setExamUnit(Integer examUnit) {
+        this.examUnit = examUnit;
+    }
+
+    public Date getExamDate() {
+        return examDate;
+    }
+
+    public void setExamDate(Date examDate) {
+        this.examDate = examDate;
     }
 
     public Integer getGrade() {
@@ -58,17 +93,37 @@ public class Exam {
         this.course = course;
     }
 
-    //just id
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Exam exam = (Exam) o;
-        return exam_id == exam.exam_id;
+        return examId == exam.examId && Objects.equals(examTitle, exam.examTitle) && Objects.equals(examUnit, exam.examUnit) && Objects.equals(examDate, exam.examDate) && Objects.equals(grade, exam.grade) && Objects.equals(teacher, exam.teacher) && Objects.equals(course, exam.course) && Objects.equals(students, exam.students);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(exam_id);
+        return Objects.hash(examId, examTitle, examUnit, examDate, grade, teacher, course, students);
+    }
+
+    @Override
+    public String toString() {
+        return
+                "examId=" + examId +
+                ", examTitle='" + examTitle + '\'' +
+                ", examUnit='" + examUnit + '\'' +
+                ", examDate=" + examDate +
+                ", grade=" + grade +
+                ", teacher=" + teacher +
+                ", course=" + course +
+                ", students=" + students;
     }
 }
