@@ -88,7 +88,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         addTeachersInStudent(student);*/
     }
 
-    private void addTeachersInStudent(Student student) throws SQLException{
+    public void addTeachersInStudent(Student student) throws SQLException{
         PreparedStatement teachers = database.getDatabaseConnection().prepareStatement(INSERT_STUDENT_TEACHERS);
         for (Teacher teacher : student.getTeachers()) {
             teachers.setInt(1,student.getStudentId());
@@ -99,7 +99,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         }
     }
 
-    private void addCoursesInStudent(Student student) throws SQLException{
+    public void addCoursesInStudent(Student student) throws SQLException{
         PreparedStatement courses = database.getDatabaseConnection().prepareStatement(INSERT_STUDENT_COURSES);
         for (Course course : student.getCourses()) {
             courses.setInt(1,course.getCourseId());
@@ -109,7 +109,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         }
     }
 
-    private void addExamInStudent(Student student) throws SQLException {
+    public void addExamInStudent(Student student) throws SQLException {
         PreparedStatement exams = database.getDatabaseConnection().prepareStatement(INSERT_STUDENT_EXAMS);
         for (Exam exam : student.getExams()) {
             exams.setInt(1,student.getStudentId());
@@ -183,7 +183,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         return students;
     }
 
-    private List<Exam> getExamsForAStudent(int studentId) throws SQLException {
+    public List<Exam> getExamsForAStudent(int studentId) throws SQLException {
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_STUDENT_EXAMS);
         ResultSet rs = ps.executeQuery();
         List<Exam> exams = new ArrayList<>();
@@ -197,7 +197,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         return exams;
     }
 
-    private Set<Teacher> getTeachersForAStudent(int studentId) throws SQLException {
+    public Set<Teacher> getTeachersForAStudent(int studentId) throws SQLException {
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_STUDENT_TEACHERS);
         ResultSet rs = ps.executeQuery();
         Set<Teacher> teachers = new HashSet<>();
@@ -211,7 +211,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         return teachers;
         }
 
-    private Set<Course> getCoursesForAStudent(int studentId) throws SQLException{
+    public Set<Course> getCoursesForAStudent(int studentId) throws SQLException{
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_STUDENT_COURSES);
         ResultSet rs = ps.executeQuery();
         Set<Course> courses = new HashSet<>();

@@ -6,14 +6,29 @@ import repository.impl.TeacherRepositoryImpl;
 import serivce.impl.TeacherServiceImpl;
 
 import java.sql.Date;
+import java.util.function.BiFunction;
 
 public class Main {
+    Double a ;
+    Double b ;
     public static void main(String[] args) {
 
-        TeacherServiceImpl teacherServiceImpl = new TeacherServiceImpl();
-        for (TeacherResponse teacherResponse : teacherServiceImpl.getAllTeachers()) {
-            System.out.println(teacherResponse);
-        }
+        //Double average = (a, b) -> (a + b) / 2;
+
+        BiFunction<Double,Double,Double> average = (a, b) -> (a + b) / 2;
+        Double result = average.apply(4.0,10.0);
+        System.out.println(result);
+
+
+
+
+
+
+
+
+
+
+
 
 
         /*INSERT INTO students (first_name, last_name, dob, national_id, gpu)

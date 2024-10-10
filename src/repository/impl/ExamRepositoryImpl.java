@@ -158,7 +158,7 @@ public class ExamRepositoryImpl implements ExamRepository {
     }
 
 
-    private Set<Student> getStudentsForAExam(int exam_id) throws SQLException {
+    public Set<Student> getStudentsForAExam(int exam_id) throws SQLException {
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_EXAM_STUDENTS);
         ResultSet rs = ps.executeQuery();
         Set<Student> students = new HashSet<>();

@@ -37,7 +37,7 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     private static final String INSERT_COURSE_EXAMS = "INSERT INTO exams_students(student_id, national_code, exam_id) VALUES(?,?,?)";
 
-    private static final String INSERT_COURSE_STUDENTS = "INSERT INTO student_course(course_id, student_id,national_code) VALUES(?,?,?)";
+    private static final String INSERT_COURSE_STUDENTS = "INSERT INTO student_course(student_id,national_code,course_id ) VALUES(?,?,?)";
 
     private static final String FIND_COURSE_BY_ID = "select * from courses where course_id = ?";
 
@@ -87,10 +87,22 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     }
 
-    private void addStudentsInCourse(Course course) {
+    public void addStudentsInCourse(Course course) throws SQLException {
+        PreparedStatement courses = database.getDatabaseConnection().prepareStatement(INSERT_COURSE_STUDENTS);
+        for (Student item : course.getStudents()) {
+            courses.setInt(2,item.getStudentId());
+            courses.setString(3,item.getNationalCode());
+            courses.setInt(1,course.getCourseId());
+            courses.executeUpdate();
+        }
     }
 
     private void addTeachersInCourse(Course course) {
+        for (Teacher item : course.getTeachers()) {
+            if (course.getCourseId() == item.getCourse().getCourseId()) {
+
+            }
+        }
     }
 
     public Course findCourseById(Integer id) throws SQLException {
@@ -145,7 +157,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         return courses;
     }
 
-    private Set<Exam> getExamsForACourse(int courseId) throws SQLException {
+    public Set<Exam> getExamsForACourse(int courseId) throws SQLException {
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_COURSE_EXAMS);
         ResultSet rs = ps.executeQuery();
         Set<Exam> exams = new HashSet<>();
@@ -161,7 +173,7 @@ public class CourseRepositoryImpl implements CourseRepository {
                 return exams;
             }
 
-    private Set<Student> getStudentsForACourse(int courseId) throws SQLException {
+    public Set<Student> getStudentsForACourse(int courseId) throws SQLException {
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_COURSE_STUDENTS);
         ResultSet rs = ps.executeQuery();
         Set<Student> students = new HashSet<>();
@@ -175,7 +187,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         return students;
     }
 
-    private Set<Teacher> getCourseTeachers(int courseId) throws SQLException {
+    public Set<Teacher> getCourseTeachers(int courseId) throws SQLException {
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(GET_COURSES_TEACHER);
         ps.setInt(1,courseId);
         ResultSet rs = ps.executeQuery();

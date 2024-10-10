@@ -5,7 +5,7 @@ import model.dto.SaveTeacherRequest;
 import model.dto.TeacherResponse;
 import repository.impl.TeacherRepositoryImpl;
 import serivce.TeacherService;
-import util.Printer;
+import util.printer.Printer;
 
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -24,8 +24,7 @@ public class TeacherServiceImpl implements TeacherService {
                     saveTeacherRequest.getFirstName(),
                     saveTeacherRequest.getLastName(),
                     saveTeacherRequest.getDob(),
-                    saveTeacherRequest.getNationalCode(),
-                    saveTeacherRequest.getCourseId()
+                    saveTeacherRequest.getNationalCode()
             ));
         } catch (SQLException e) {
             Printer.print("enter information again");
@@ -41,8 +40,7 @@ public class TeacherServiceImpl implements TeacherService {
                 TeacherResponse teacher =  new TeacherResponse(
                         item.getTeacherId(),
                         item.getFirstName(),
-                        item.getLastName(),
-                        item.getCourseId()
+                        item.getLastName()
                 );
 
                 Printer.print("<<teacher found>>");
@@ -77,8 +75,7 @@ public class TeacherServiceImpl implements TeacherService {
                 teachers.add(new TeacherResponse(
                         item.getTeacherId(),
                         item.getFirstName(),
-                        item.getLastName(),
-                        item.getCourseId()
+                        item.getLastName()
                 ));
             }
         }catch (SQLException e){

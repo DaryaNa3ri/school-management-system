@@ -4,13 +4,12 @@ public class TeacherResponse {
     private Integer teacherId;
     private String firstName;
     private String lastName;
-    private int courseId;
 
-    public TeacherResponse(Integer teacherId, String firstName, String lastName, int courseId) {
+    public TeacherResponse(Integer teacherId, String firstName, String lastName) {
         this.teacherId = teacherId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.courseId = courseId;
+
     }
 
     public Integer getTeacherId() {
@@ -37,13 +36,7 @@ public class TeacherResponse {
         this.lastName = lastName;
     }
 
-    public int getCourseId() {
-        return courseId;
-    }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
 
     @Override
     public String toString() {
@@ -51,7 +44,6 @@ public class TeacherResponse {
                 "teacherId=" + teacherId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", courseId=" + courseId +
                 '}';
     }
 }

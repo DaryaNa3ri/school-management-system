@@ -1,4 +1,4 @@
-package util;
+package util.printer;
 
 import model.Teacher;
 import model.dto.TeachersForACourseDto;
@@ -32,13 +32,15 @@ public class Printer {
         }
     }
 
-    public void printTeachersCourse() {
+    /*public void printTeacherCourse() {
         try {
-            for (TeachersForACourseDto item : teacherRepository.getTeachersCourse())
+            for (Teacher teacher : teacherRepository.getAllTeachers()) {
+                for (Teacher item : teacherRepository.getTeacherCourse(teacher.getTeacherId()))
                 System.out.println(item);
+            }
         } catch (SQLException e) {
             System.out.println("There is problem with connecting to database:(");
         }
-    }
+    }*/
 
 }
