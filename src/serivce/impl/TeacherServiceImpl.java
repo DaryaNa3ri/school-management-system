@@ -9,6 +9,7 @@ import util.printer.Printer;
 
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class TeacherServiceImpl implements TeacherService {
@@ -19,7 +20,7 @@ public class TeacherServiceImpl implements TeacherService {
     public void save(SaveTeacherRequest saveTeacherRequest) {
         CheckTeacher(saveTeacherRequest);
         try {
-            teacherRepository.saveOrUpdateTeacher(new Teacher(
+            teacherRepository.saveOrUpdate(new Teacher(
                     saveTeacherRequest.getTeacherId(),
                     saveTeacherRequest.getFirstName(),
                     saveTeacherRequest.getLastName(),
@@ -35,16 +36,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     public TeacherResponse findTeacherById(int id) {
         try {
-            Teacher item = teacherRepository.findTeacherById(id);
+            Optional<Teacher> item = teacherRepository.findById(id);
             if (item != null) {
-                TeacherResponse teacher =  new TeacherResponse(
-                        item.getTeacherId(),
-                        item.getFirstName(),
-                        item.getLastName()
-                );
+                TeacherResponse teacher ;
 
                 Printer.print("<<teacher found>>");
-                return teacher;
+                return null;
             }
             else if (item == null) {
                 Printer.print("teacher not found");
@@ -58,9 +55,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     public void deleteTeacherById(int id) {
         try {
-            for (Teacher item : teacherRepository.getAllTeachers())
+            for (Teacher item : teacherRepository.getAll())
                 if (item.getTeacherId() == id) {
-                    teacherRepository.deleteTeacher(item);
+                    teacherRepository.delete(null);
                     Printer.print("teacher deleted successfully");
                 }
         }catch (SQLException e){
@@ -68,10 +65,10 @@ public class TeacherServiceImpl implements TeacherService {
         }
     }
 
-    public Set<TeacherResponse> getAllTeachers() {
+    public Set<TeacherResponse> getAll() {
         Set<TeacherResponse> teachers = new HashSet<>();
         try{
-            for (Teacher item : teacherRepository.getAllTeachers()) {
+            for (Teacher item : teacherRepository.getAll()) {
                 teachers.add(new TeacherResponse(
                         item.getTeacherId(),
                         item.getFirstName(),

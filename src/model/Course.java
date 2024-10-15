@@ -8,8 +8,11 @@ public class Course {
     private Integer CourseId;
     private String courseTitle;
     private Integer courseUnit;
+    //teachers are in teacher repository
     private Set<Teacher> teachers;
+    //junction table
     private Set<Student> students;
+    //exams are in exam repository
     private Set<Exam> exams;
 
     public Course(Integer courseId, String courseTitle, Integer courseUnit) {

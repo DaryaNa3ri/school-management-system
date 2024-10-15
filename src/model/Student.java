@@ -11,8 +11,11 @@ public class Student {
     private Date dob;
     private String nationalCode;
     private Double gpu;
+    //junction table
     private List<Exam> exams;
+    //junction table
     private Set<Course> courses;
+    //junction table
     private Set<Teacher> teachers;
 
     public Student(Integer studentId, String firstName, String lastName, Date dob, String nationalCode, Double gpu) {

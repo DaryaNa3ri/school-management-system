@@ -4,16 +4,14 @@ import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
-import repository.CourseRepository;
-import repository.ExamRepository;
-import repository.StudentRepository;
-import repository.TeacherRepository;
+import repository.*;
 import util.Database;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class ExamRepositoryImpl implements ExamRepository {
@@ -26,12 +24,14 @@ public class ExamRepositoryImpl implements ExamRepository {
 
     private static final String GET_ALL_EXAMS_QUERY = "select * from exams";
 
-    private static final String GET_EXAM_STUDENTS = "select exam_id ,student_id  from exams_students where exam_id = ?";
+    private static final String GET_EXAM_STUDENTS = "select exam_id ,student_id  from student_exam where exam_id = ?";
 
     private static final String UPDATE_EXAM = "UPDATE exams SET exam_title = ?, exam_unit = ? , grade = ?, exam_date = ? WHERE exam_id = ?";
 
     private static final String SAVE_EXAM = "insert into exams(exam_title, exam_unit, exam_date ,grade) \n" +
             "values(?,?,?,?)";
+
+    private static final String INSERT_EXAM_STUDENTS = "INSERT INTO student_exam(exam_id,student_id, national_code ) VALUES(?,?,?)";
 
     private static final String FIND_EXAM_BY_ID = "select * from exams where exam_id = ?";
 
@@ -41,8 +41,14 @@ public class ExamRepositoryImpl implements ExamRepository {
 
     private static final String DELETE_EXAM = "delete from teachers where teacher_id = ?";
 
+    private static final String DELETE_EXAM_FROM_STUDENT_EXAM = "delete from student_exam where exam_id = ?";
+
+
+    private static final String SET_EXAM_AS_NULL_IN_STUDENT_EXAM = "update student_exam set exam_id = null where exam_id = ?";
 
     private Database database = new Database();
+
+
 
     public void saveOrUpdate(Exam exam) throws SQLException {
         if (exam.getExamId() == null) {
@@ -68,30 +74,54 @@ public class ExamRepositoryImpl implements ExamRepository {
         ps.setDate(3,exam.getExamDate());
         ps.setInt(4,exam.getGrade());
         ps.executeUpdate();
+        addStudentsInAExam(exam);
+    }
+
+    public void addStudentsInAExam(Exam exam) throws SQLException {
+        PreparedStatement ps = database.getPreparedStatement(INSERT_EXAM_STUDENTS);
+        for (Student student : exam.getStudents()) {
+            ps.setInt(1,exam.getExamId());
+            ps.setInt(2,student.getStudentId());
+            ps.setString(3,student.getNationalCode());
+        }
     }
 
 
-    public Exam findExamById(int id) throws SQLException{
+    public Optional<Exam> findById(Integer id) throws SQLException{
         PreparedStatement ps = database.getDatabaseConnection().prepareStatement(FIND_EXAM_BY_ID);
         ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();
+        Optional<Exam> optionalExam = Optional.empty();
         while(rs.next()){
             if(rs.getInt("exam_id") == id){
-                return new Exam(id,
+                Exam exam = new Exam(id,
                         rs.getString("exam_title"),
                         rs.getInt("exam_unit"),
                         rs.getDate("exam_date"),
                         rs.getInt("grade")
                 );
+                optionalExam = Optional.of(exam);
             }
         }
-        return null;
+        return optionalExam;
     }
 
 
-    public void deleteExam(Exam exam) throws SQLException{
-        PreparedStatement ps = database.getDatabaseConnection().prepareStatement(DELETE_EXAM);
-        ps.setInt(1,exam.getExamId());
+    public void delete(Integer id) throws SQLException{
+        PreparedStatement ps;
+
+        ps = database.getPreparedStatement(SET_EXAM_AS_NULL_IN_STUDENT_EXAM);
+        ps.setInt(1,id);
+        ps.executeUpdate();
+
+        ps = database.getDatabaseConnection().prepareStatement(DELETE_EXAM);
+        ps.setInt(1,id);
+        ps.executeUpdate();
+    }
+
+    public void removeExamFromStudentExamTable(Integer examId) throws SQLException {
+        PreparedStatement ps = database.getPreparedStatement(DELETE_EXAM_FROM_STUDENT_EXAM);
+        ps.setInt(1,examId);
         ps.executeUpdate();
     }
 
@@ -102,7 +132,7 @@ public class ExamRepositoryImpl implements ExamRepository {
         ResultSet rs = prs.executeQuery();
         while (rs.next()){
             if (rs.getInt("exam_id") == exam_id){}
-                for (Teacher item : teacherRepository.getAllTeachers())
+                for (Teacher item : teacherRepository.getAll())
                     if (item.getTeacherId() == rs.getInt("teacher_id"))
                         return item;
         }
@@ -115,7 +145,7 @@ public class ExamRepositoryImpl implements ExamRepository {
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             if(rs.getInt("exam_id") == exam_id){
-                for (Course item: courseRepository.getAllCourses()) {
+                for (Course item: courseRepository.getAll()) {
                     if (item.getCourseId() == rs.getInt("course_id"))
                         return item;
                 }
@@ -125,7 +155,7 @@ public class ExamRepositoryImpl implements ExamRepository {
     }
 
 
-    public Set<Exam> getAllExams()throws SQLException{
+    public Set<Exam> getAll()throws SQLException{
         ResultSet rs = database.getSQLStatement().executeQuery(GET_ALL_EXAMS_QUERY);
         Set<Exam> exams = new HashSet<>();
         while(rs.next()){
@@ -164,7 +194,7 @@ public class ExamRepositoryImpl implements ExamRepository {
         Set<Student> students = new HashSet<>();
         while (rs.next()){
             if (rs.getInt("exam_id") == exam_id){
-                for (Student item : studentRepository.getAllStudents())
+                for (Student item : studentRepository.getAll())
                     if (item.getStudentId() == rs.getInt("student_id"))
                         students.add(item);
             }

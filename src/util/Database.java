@@ -1,9 +1,6 @@
 package util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
 
@@ -17,5 +14,9 @@ public class Database {
 
     public Statement getSQLStatement() throws SQLException {
         return this.getDatabaseConnection().createStatement();
+    }
+
+    public PreparedStatement getPreparedStatement(String sql) throws SQLException {
+        return this.getDatabaseConnection().prepareStatement(sql);
     }
 }

@@ -12,7 +12,7 @@ public class StudentServiceImpl {
 
     public void printAllStudentList() {
         try {
-            Set<Student> students = this.studentRepository.getAllStudents();
+            Set<Student> students = this.studentRepository.getAll();
             for (Student student: students) {
                 System.out.println(student);
             }

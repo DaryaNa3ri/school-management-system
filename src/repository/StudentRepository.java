@@ -9,15 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-public interface StudentRepository {
-
-    void saveOrUpdate(Student student) throws SQLException;
-
-    Student findStudentById(Integer id) throws SQLException;
-
-    void deleteStudent(Student student) throws SQLException;
-
-    Set<Student> getAllStudents() throws SQLException;
+public interface StudentRepository extends BaseRepository<Student>{
 
     Set<Student> getAllStudentsFull() throws SQLException;
 
@@ -26,6 +18,12 @@ public interface StudentRepository {
     void addCoursesInStudent(Student student) throws SQLException;
 
     void addExamInStudent(Student student) throws SQLException;
+
+    void removeStudentFromStudentExamTable(Integer studentId) throws SQLException;
+
+    void removeStudentFromStudentCourseTable(Integer studentId) throws SQLException;
+
+    void removeStudentFromStudentTeacherTable(Integer studentId) throws SQLException;
 
     List<Exam> getExamsForAStudent(int studentId) throws SQLException;
 

@@ -2,7 +2,9 @@ import com.sun.xml.internal.messaging.saaj.util.TeeInputStream;
 import model.Teacher;
 import model.dto.SaveTeacherRequest;
 import model.dto.TeacherResponse;
+import repository.TeacherRepository;
 import repository.impl.TeacherRepositoryImpl;
+import serivce.TeacherService;
 import serivce.impl.TeacherServiceImpl;
 
 import java.sql.Date;
@@ -15,9 +17,16 @@ public class Main {
 
         //Double average = (a, b) -> (a + b) / 2;
 
-        BiFunction<Double,Double,Double> average = (a, b) -> (a + b) / 2;
+       /* BiFunction<Double,Double,Double> average = (a, b) -> (a + b) / 2;
         Double result = average.apply(4.0,10.0);
         System.out.println(result);
+
+        TeacherService teacherService = new TeacherServiceImpl();
+        teacherService.findTeacherById(12);*/
+
+
+
+
 
 
 

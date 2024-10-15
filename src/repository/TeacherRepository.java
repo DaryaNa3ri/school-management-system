@@ -11,22 +11,14 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-public interface TeacherRepository {
+public interface TeacherRepository extends BaseRepository<Teacher> {
     //crud create read update delete
-
-    void saveOrUpdateTeacher(Teacher teacher) throws SQLException;
-
-    Teacher findTeacherById(int id) throws SQLException;
-
-    Set<Teacher> getAllTeachers() throws SQLException;
 
     Set<Teacher> getAllTeachersFull() throws SQLException;
 
-    void deleteTeacher(Teacher teacher)throws SQLException;
+    //List<Exam> getExamsForATeacher() throws SQLException;
 
-    List<ExamsForATeacherDto> getExamsForATeacher() throws SQLException;
-
-    List<Exam> getTeacherExams(int id) throws SQLException;
+    List<Exam> getATeacherExams(int id) throws SQLException;
 
     int getCountOfTeachers() throws SQLException;
 

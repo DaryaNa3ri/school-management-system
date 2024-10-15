@@ -6,14 +6,25 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Exam {
+
     private Integer examId;
     private String examTitle;
     private Integer examUnit;
     private Date examDate;
     private Integer grade;
+
+    //then it should be in exam repository
     private Teacher teacher;
+
+    //then it should be in exam repository
     private Course course;
+
+    //junction table
     private Set<Student> students;
+
+    public Exam(String examTitle) {
+        this.examTitle = examTitle;
+    }
 
     public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Integer grade) {
         this.examId = examId;

@@ -9,8 +9,11 @@ public class Teacher {
     private String lastName;
     private Date dob;
     private String nationalCode;
+    //it most be in teacher repository
     private Course course;
+    //junction table
     private Set<Student> students;
+    //it most be in exam repository
     private List<Exam> exams;
 
     public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode) {
