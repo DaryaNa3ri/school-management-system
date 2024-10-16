@@ -11,7 +11,7 @@ public class Exam {
     private String examTitle;
     private Integer examUnit;
     private Date examDate;
-    private Integer grade;
+    private Double grade;
 
     //then it should be in exam repository
     private Teacher teacher;
@@ -26,7 +26,7 @@ public class Exam {
         this.examTitle = examTitle;
     }
 
-    public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Integer grade) {
+    public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Double grade) {
         this.examId = examId;
         this.examTitle = examTitle;
         this.examUnit = examUnit;
@@ -34,7 +34,14 @@ public class Exam {
         this.grade = grade;
     }
 
-    public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Integer grade, Teacher teacher, Course course, Set<Student> students) {
+    public Exam(String examTitle, Integer examUnit, Date examDate, Double grade) {
+        this.examTitle = examTitle;
+        this.examUnit = examUnit;
+        this.examDate = examDate;
+        this.grade = grade;
+    }
+
+    public Exam(Integer examId, String examTitle, Integer examUnit, Date examDate, Double grade, Teacher teacher, Course course, Set<Student> students) {
         this.examId = examId;
         this.examTitle = examTitle;
         this.examUnit = examUnit;
@@ -80,11 +87,11 @@ public class Exam {
         this.examDate = examDate;
     }
 
-    public Integer getGrade() {
+    public Double getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(Double grade) {
         this.grade = grade;
     }
 
@@ -129,12 +136,9 @@ public class Exam {
     public String toString() {
         return
                 "examId=" + examId +
-                ", examTitle='" + examTitle + '\'' +
-                ", examUnit='" + examUnit + '\'' +
+                ", examTitle='" + examTitle +
+                ", examUnit='" + examUnit +
                 ", examDate=" + examDate +
-                ", grade=" + grade +
-                ", teacher=" + teacher +
-                ", course=" + course +
-                ", students=" + students;
+                ", grade=" + grade;
     }
 }

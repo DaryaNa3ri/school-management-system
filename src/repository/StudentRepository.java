@@ -13,11 +13,11 @@ public interface StudentRepository extends BaseRepository<Student>{
 
     Set<Student> getAllStudentsFull() throws SQLException;
 
-    void addTeachersInStudent(Student student) throws SQLException;
+    void addTeachersInStudent(Student student,Teacher teacher) throws SQLException;
 
-    void addCoursesInStudent(Student student) throws SQLException;
+    void addCoursesInStudent(Student student,Course course) throws SQLException;
 
-    void addExamInStudent(Student student) throws SQLException;
+    void addExamInStudent(Student student,Exam exam) throws SQLException;
 
     void removeStudentFromStudentExamTable(Integer studentId) throws SQLException;
 

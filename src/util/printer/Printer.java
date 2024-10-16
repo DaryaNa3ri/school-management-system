@@ -1,20 +1,59 @@
 package util.printer;
 
+import model.Course;
+import model.Exam;
+import model.Student;
 import model.Teacher;
 import model.dto.TeachersForACourseDto;
 import repository.TeacherRepository;
+import serivce.ExamService;
+import serivce.StudentService;
 
 import java.sql.SQLException;
+import java.util.Set;
 
 public class Printer {
     private TeacherRepository teacherRepository;
+    private ExamService examService;
+    private StudentService studentService;
 
     public static void print(String message){
         System.out.println(message);
     }
 
+    public static void printAllExams(Set<Exam> exams){
+        try {
+            exams.forEach(System.out::println);
+        }catch (Exception e){
+            print("Error");
+        }
+    }
 
-    public void printAllTeacherList() {
+    public static void printAllTeachers(Set<Teacher> teachers){
+        try {
+            teachers.forEach(System.out::println);
+        }catch (Exception e){
+            print("Error");
+        }
+    }
+
+    public static void printAllCourses(Set<Course> courses){
+        try {
+            courses.forEach(System.out::println);
+        }catch (Exception e){
+            print("Error");
+        }
+    }
+
+    public static void printAllStudents(Set<Student> students){
+        try{
+            students.forEach(student -> System.out.println(student));
+        }catch (Exception e){
+            print("Error");
+        }
+    }
+
+    /*public void printAllTeacherList() {
         try {
             for (Teacher teacher : teacherRepository.getAllTeachers()) {
                 System.out.println(teacher);
@@ -23,7 +62,7 @@ public class Printer {
             System.out.println("There is problem with connecting to database:(");
         }
     }
-
+*/
     public void printCountOfTeachers() {
         try {
             System.out.println("# teachers : " + teacherRepository.getCountOfTeachers());

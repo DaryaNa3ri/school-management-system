@@ -27,6 +27,14 @@ public class Student {
         this.gpu = gpu;
     }
 
+    public Student(String firstName, String lastName, Date dob, String nationalCode, Double gpu) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.nationalCode = nationalCode;
+        this.gpu = gpu;
+    }
+
     public Student(Integer studentId, String firstName, String lastName, Date dob, String nationalCode, Double gpu, List<Exam> exams, Set<Course> courses, Set<Teacher> teachers) {
         this.studentId = studentId;
         this.firstName = firstName;
@@ -136,14 +144,11 @@ public class Student {
     @Override
     public String toString() {
         return
-                "studentId=" + studentId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dob=" + dob +
-                ", nationalCode='" + nationalCode + '\'' +
-                ", gpu=" + gpu +
-                ", exams=" + exams +
-                ", courses=" + courses +
-                ", teachers=" + teachers;
+                "studentId = " + studentId +
+                ", firstName = " + firstName +
+                ", lastName = " + lastName +
+                ", dob = " + dob +
+                ", nationalCode = " + nationalCode +
+                ", gpu = " + gpu;
     }
 }

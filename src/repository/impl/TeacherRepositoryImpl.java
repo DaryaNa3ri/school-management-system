@@ -23,6 +23,12 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 
     private ExamRepository examRepository;
 
+    public TeacherRepositoryImpl(CourseRepository courseRepository, StudentRepository studentRepository, ExamRepository examRepository) {
+        this.courseRepository = courseRepository;
+        this.studentRepository = studentRepository;
+        this.examRepository = examRepository;
+    }
+
     private static final String SAVE_TEACHER = "insert into teachers(first_name, last_name, dob, national_code, course_id)\n" +
             "values(?,?,?,?,?)";
 

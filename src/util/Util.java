@@ -12,7 +12,12 @@ public class Util {
 
     public static String getStringInput(String prompt) {
         System.out.print("->   " + prompt);
-        return sc.nextLine();
+        return sc.next();
+    }
+
+    public static double getDoubleInput(String message) {
+        System.out.print("->   " +message);
+        return sc.nextDouble();
     }
 
 }

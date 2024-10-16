@@ -22,6 +22,12 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     private TeacherRepository teacherRepository;
 
+    public StudentRepositoryImpl(ExamRepository examRepository, CourseRepository courseRepository, TeacherRepository teacherRepository) {
+        this.examRepository = examRepository;
+        this.courseRepository = courseRepository;
+        this.teacherRepository = teacherRepository;
+    }
+
     //language=SQL
     private static final String GET_ALL_STUDENTS_QUERY = "SELECT * FROM students";
     //language=SQL
@@ -90,42 +96,41 @@ public class StudentRepositoryImpl implements StudentRepository {
         ps.setString(4,student.getNationalCode());
         ps.setDouble(5,student.getGpu());
         ps.executeUpdate();
-        addExamInStudent(student);
+        /*addExamInStudent(student);
         addCoursesInStudent(student);
-        addTeachersInStudent(student);
+        addTeachersInStudent(student);*/
     }
 
-    public void addTeachersInStudent(Student student) throws SQLException{
+    public void addTeachersInStudent(Student student,Teacher teacher) throws SQLException{
         PreparedStatement teachers = database.getPreparedStatement(INSERT_STUDENT_TEACHERS);
-        for (Teacher teacher : student.getTeachers()) {
+
             teachers.setInt(1,student.getStudentId());
             teachers.setString(2,student.getNationalCode());
             teachers.setInt(3,teacher.getTeacherId());
             teachers.setString(4,teacher.getFirstName());
             teachers.executeUpdate();
-        }
+
     }
 
     //todo : service get a list of ids from user and send it in a method in this repository
 
-    public void addCoursesInStudent(Student student) throws SQLException{
+    public void addCoursesInStudent(Student student, Course course) throws SQLException{
         PreparedStatement courses = database.getPreparedStatement(INSERT_STUDENT_COURSES);
-        for (Course course : student.getCourses()) {
+        //for (Course course : student.getCourses()) {
             courses.setInt(1,course.getCourseId());
             courses.setInt(2,student.getStudentId());
             courses.setString(3,student.getNationalCode());
             courses.executeUpdate();
-        }
+        //}
     }
 
-    public void addExamInStudent(Student student) throws SQLException {
+    public void addExamInStudent(Student student,Exam exam) throws SQLException {
         PreparedStatement exams = database.getPreparedStatement(INSERT_STUDENT_EXAMS);
-        for (Exam exam : student.getExams()) {
             exams.setInt(1,student.getStudentId());
             exams.setString(2,student.getNationalCode());
             exams.setInt(3,exam.getExamId());
             exams.executeUpdate();
-        }
+
     }
 
     @Override

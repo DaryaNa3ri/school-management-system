@@ -26,6 +26,12 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     private ExamRepository examRepository;
 
+    public CourseRepositoryImpl(TeacherRepository teacherRepository, StudentRepository studentRepository, ExamRepository examRepository) {
+        this.teacherRepository = teacherRepository;
+        this.studentRepository = studentRepository;
+        this.examRepository = examRepository;
+    }
+
     private static final String GET_ALL_COURSES_QUERY = "select * from courses";
 
     private static final String GET_COUNT_OF_ALL_COURSES_QUERY = "select count(*) from courses";

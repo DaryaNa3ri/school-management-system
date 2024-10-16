@@ -1,13 +1,25 @@
 import com.sun.xml.internal.messaging.saaj.util.TeeInputStream;
+import menu.Menu;
 import model.Teacher;
 import model.dto.SaveTeacherRequest;
 import model.dto.TeacherResponse;
+import repository.ExamRepository;
 import repository.TeacherRepository;
+import repository.impl.ExamRepositoryImpl;
+import repository.impl.StudentRepositoryImpl;
 import repository.impl.TeacherRepositoryImpl;
+import serivce.StudentService;
 import serivce.TeacherService;
+import serivce.impl.ExamServiceImpl;
+import serivce.impl.StudentServiceImpl;
 import serivce.impl.TeacherServiceImpl;
+import util.printer.Printer;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.BiFunction;
 
 public class Main {
@@ -23,6 +35,17 @@ public class Main {
 
         TeacherService teacherService = new TeacherServiceImpl();
         teacherService.findTeacherById(12);*/
+
+        List<Integer> numbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+        numbers.add(4);
+        numbers.add(5);
+        numbers.add(6);
+
+        Menu.startMenu();
+
 
 
 

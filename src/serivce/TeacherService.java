@@ -11,7 +11,10 @@ public interface TeacherService {
 
     TeacherResponse findTeacherById(int id);
 
-    void deleteTeacherById(int id);
+    void showAll();
+
+
+    //void deleteTeacherById(int id);
 
 
 

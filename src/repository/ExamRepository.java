@@ -6,20 +6,22 @@ import model.Student;
 import model.Teacher;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface ExamRepository extends BaseRepository<Exam> {
 
-    Teacher getExamsTeacher(int exam_id) throws SQLException;
+    Optional<Teacher> getExamsTeacher(int exam_id) throws SQLException;
 
-    Course getExamsCourse(int exam_id) throws SQLException;
+    Optional<Course> getExamsCourse(int exam_id) throws SQLException;
 
-    Set<Exam> getAllExamsFull() throws SQLException;
+    //Set<Exam> getAllExamsFull() throws SQLException;
 
-    Set<Student> getStudentsForAExam(int exam_id) throws SQLException;
+    List<Student> getStudentsForAExam(int exam_id) throws SQLException;
 
-
-
+    public void addExamInStudentExamTable(Exam exam,Student student) throws SQLException;
+    void removeExamFromStudentExamTable(Integer examId) throws SQLException;
 
 
 

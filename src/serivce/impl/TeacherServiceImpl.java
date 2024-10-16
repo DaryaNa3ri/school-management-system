@@ -3,6 +3,7 @@ package serivce.impl;
 import model.Teacher;
 import model.dto.SaveTeacherRequest;
 import model.dto.TeacherResponse;
+import repository.TeacherRepository;
 import repository.impl.TeacherRepositoryImpl;
 import serivce.TeacherService;
 import util.printer.Printer;
@@ -13,8 +14,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public class TeacherServiceImpl implements TeacherService {
-    private TeacherRepositoryImpl teacherRepository = new TeacherRepositoryImpl();
+    private TeacherRepository teacherRepository ;
 
+    public TeacherServiceImpl(TeacherRepository teacherRepository) {
+        this.teacherRepository = teacherRepository;
+    }
 
     @Override
     public void save(SaveTeacherRequest saveTeacherRequest) {
@@ -53,7 +57,7 @@ public class TeacherServiceImpl implements TeacherService {
         return null;
     }
 
-    public void deleteTeacherById(int id) {
+   /* public void deleteTeacherById(int id) {
         try {
             for (Teacher item : teacherRepository.getAll())
                 if (item.getTeacherId() == id) {
@@ -63,7 +67,7 @@ public class TeacherServiceImpl implements TeacherService {
         }catch (SQLException e){
             Printer.print("There is problem with connecting to database:(");
         }
-    }
+    }*/
 
     public Set<TeacherResponse> getAll() {
         Set<TeacherResponse> teachers = new HashSet<>();
@@ -79,6 +83,14 @@ public class TeacherServiceImpl implements TeacherService {
             Printer.print("There is problem with connecting to database:(");
         }
         return teachers;
+    }
+
+    public void showAll(){
+        try {
+            Printer.printAllTeachers(teacherRepository.getAll());
+        }catch (SQLException e){
+            Printer.print("There is problem with connecting to database:(");
+        }
     }
 
     private void CheckTeacher(SaveTeacherRequest saveTeacherRequest) {
