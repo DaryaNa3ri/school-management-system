@@ -9,6 +9,7 @@ import model.dto.TeachersForACourseDto;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface TeacherRepository extends BaseRepository<Teacher> {
@@ -24,8 +25,12 @@ public interface TeacherRepository extends BaseRepository<Teacher> {
 
     List<TeachersForACourseDto> getTeachersForACourse() throws SQLException;
 
-    Course getTeacherCourse(int teacher_id) throws SQLException;
+    Optional<Course> getTeacherCourse(int teacher_id) throws SQLException;
 
     Set<Student> getStudentsOfATeacher(int teacher_id) throws SQLException;
 
+    void deleteTeacherCourse(Integer teacherId) throws SQLException;
+
+    void removeTeacherFromStudentTeacherTable(Integer teacherId) throws SQLException;
+    void removeTeacherFromExamTable(Integer teacherId) throws SQLException;
 }

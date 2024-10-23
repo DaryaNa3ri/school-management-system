@@ -1,21 +1,24 @@
 package menu;
 
+import model.Student;
 import util.ApplicationContext;
 import util.Util;
 import util.printer.Printer;
 
-import java.sql.Date;
-import java.text.ParseException;
-
 public class StudentMenu {
-    public static void studentMenu() {
+    public static void studentMenuForAdmin() {
         boolean exit = false;
         while (!exit) {
-            Printer.print(" > > > > >   EXAM MENU   < < < < < ");
-            Printer.print("     1.      add student\n" +
+            Printer.print(" > > > > >   STUDENT MENU   < < < < < ");
+            Printer.print(
+                    "     1.      add student\n" +
+                    "             *                     add STUDENT, EXAM, COURSE, TEACHER\n" +
                     "     2.      update student\n" +
+                    "             *                     update student information\n" +
                     "     3.      delete student\n" +
+                    "             *                     delete STUDENT, EXAM, COURSE, TEACHER\n" +
                     "     4.      show student\n" +
+                    "             *                     show STUDENTS, EXAMS, COURSE, TEACHER\n" +
                     "     -1.     quit");
 
             int choice = Util.getIntInput(">> please enter your choice:");
@@ -31,7 +34,7 @@ public class StudentMenu {
                     deleteMenu();
                     break;
                 case 4:
-                    //showMenu();
+                    showMenu();
                     break;
                 case -1:
                     exit = false;
@@ -44,7 +47,7 @@ public class StudentMenu {
         while (flag) {
             Printer.print(" > > > > >   ADD STUDENT MENU   < < < < < ");
             Printer.print(
-                    "     1.      add new student\n" +
+                            "     1.      add new student\n" +
                             "     2.      add student in exam\n" +
                             "     3.      add student in teacher\n" +
                             "     4.      add student in course\n" +
@@ -60,7 +63,7 @@ public class StudentMenu {
                     String nationalCode = Util.getStringInput(">> please enter the national code of the student: ");
                     Double gpu = Util.getDoubleInput(">> please enter the gpu number of the student: ");
                     ApplicationContext.getStudentService().addNew(firstName, lastName, dob, nationalCode, gpu);
-                    Printer.print("new exam added successfully :)");
+                    Printer.print("new student added successfully :)");
                     break;
                 case 2:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
@@ -69,7 +72,8 @@ public class StudentMenu {
                     Printer.print(" > > > > >   ALL EXAMS   < < < < < ");
                     ApplicationContext.getExamService().showAll();
                     Integer examId = Util.getIntInput(">> Please enter exam id: ");
-                    ApplicationContext.getStudentService().addStudentInStudentExamTable(studentId, examId);
+                    Integer grade = Util.getIntInput(">> please enter the grade of the exam: ");
+                    ApplicationContext.getStudentService().addStudentInStudentExamTable(studentId, examId,grade);
                     Printer.print("student added successfully :)");
                     break;
                 case 3:
@@ -88,7 +92,7 @@ public class StudentMenu {
                     Integer studentId2 = Util.getIntInput(">> Please enter student id: ");
                     Printer.print(" > > > > >   ALL COURSES   < < < < < ");
                     ApplicationContext.getCourseService().showAll();
-                    Integer courseId = Util.getIntInput(">> Please enter teacher id: ");
+                    Integer courseId = Util.getIntInput(">> Please enter course id: ");
                     ApplicationContext.getStudentService().addStudentInStudentCourseTable(studentId2, courseId);
                     Printer.print("student added successfully :)");
                     break;
@@ -119,9 +123,9 @@ public class StudentMenu {
                     String nationalCode = Util.getStringInput(">> please enter the national code of the student: ");
                     Double gpu = Util.getDoubleInput(">> please enter the gpu number of the student: ");
                     ApplicationContext.getStudentService().update(studentId, firstName, lastName, dob, nationalCode, gpu);
-                    Printer.print("update exam successful");
+                    Printer.print("update student successful");
                     break;
-                case 2:
+                case -1:
                     flag = false;
             }
         }
@@ -144,7 +148,7 @@ public class StudentMenu {
                 case 1:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer studentId = Util.getIntInput(">> Please enter your choice: ");
+                    Integer studentId = Util.getIntInput(">> Please enter student id choice: ");
                     ApplicationContext.getStudentService().delete(studentId);
                     Printer.print("delete student successfully :)");
                     break;
@@ -153,7 +157,7 @@ public class StudentMenu {
                 case 2:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer studentId3 = Util.getIntInput(">> Please enter your choice: ");
+                    Integer studentId3 = Util.getIntInput(">> Please enter student id choice: ");
                     ApplicationContext.getStudentService().deleteStudentFromStudentCourseTable(studentId3);
                     Printer.print("student deleted successfully :)");
                     break;
@@ -162,7 +166,7 @@ public class StudentMenu {
                 case 3:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer studentId2 = Util.getIntInput(">> Please enter your choice: ");
+                    Integer studentId2 = Util.getIntInput(">> Please enter student id choice: ");
                     ApplicationContext.getStudentService().deleteStudentFromStudentTeacherTable(studentId2);
                     Printer.print("student deleted successfully :)");
                     break;
@@ -171,7 +175,7 @@ public class StudentMenu {
                 case 4:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer studentId1 = Util.getIntInput(">> Please enter your choice: ");
+                    Integer studentId1 = Util.getIntInput(">> Please enter student id choice: ");
                     ApplicationContext.getStudentService().deleteStudentFromStudentExamList(studentId1);
                     Printer.print("student deleted successfully :)");
                     break;
@@ -184,15 +188,15 @@ public class StudentMenu {
         }
     }
 
-    private static void showMenu() {
+    public static void showMenu() {
         boolean flag = true;
         while (flag) {
             Printer.print(" > > > > >   SHOW STUDENT MENU   < < < < < ");
             Printer.print(
-                    "     1.     show all students\n" +
-                    "     2.     show a student courses\n" +
-                    "     3.     show a student teachers\n" +
-                    "     4.     show a student exams\n" +
+                            "     1.      show all students\n" +
+                            "     2.      show a student courses\n" +
+                            "     3.      show a student teachers\n" +
+                            "     4.      show a student exams\n" +
                             "     -1.     quit"
             );
             int choice = Util.getIntInput(">>please enter your choice:");
@@ -205,21 +209,21 @@ public class StudentMenu {
                 case 2:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer id = Util.getIntInput(">> Please enter your choice: ");
+                    Integer id = Util.getIntInput(">> Please enter student id : ");
                     ApplicationContext.getStudentService().showStudentcourses(id);
 
                     break;
                 case 3:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer id1 = Util.getIntInput(">> Please enter your choice: ");
+                    Integer id1 = Util.getIntInput(">> Please enter student id : ");
                     ApplicationContext.getStudentService().showStudentTeachers(id1);
 
                     break;
                 case 4:
                     Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                     ApplicationContext.getStudentService().showAll();
-                    Integer id2 = Util.getIntInput(">> Please enter your choice: ");
+                    Integer id2 = Util.getIntInput(">> Please enter student id : ");
                     ApplicationContext.getStudentService().showStudentExams(id2);
                     break;
                 case -1:
@@ -227,4 +231,5 @@ public class StudentMenu {
             }
         }
     }
+
 }

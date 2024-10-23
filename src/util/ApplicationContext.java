@@ -4,18 +4,12 @@ import repository.CourseRepository;
 import repository.ExamRepository;
 import repository.StudentRepository;
 import repository.TeacherRepository;
-import repository.impl.CourseRepositoryImpl;
-import repository.impl.ExamRepositoryImpl;
-import repository.impl.StudentRepositoryImpl;
-import repository.impl.TeacherRepositoryImpl;
+import repository.impl.*;
 import serivce.CourseService;
 import serivce.ExamService;
 import serivce.StudentService;
 import serivce.TeacherService;
-import serivce.impl.CourseServiceImpl;
-import serivce.impl.ExamServiceImpl;
-import serivce.impl.StudentServiceImpl;
-import serivce.impl.TeacherServiceImpl;
+import serivce.impl.*;
 
 public class ApplicationContext {
 
@@ -23,22 +17,27 @@ public class ApplicationContext {
         private static TeacherRepository teacherRepository;
         private static CourseRepository courseRepository;
         private static ExamRepository examRepository;
+        private static UserRepositoryImpl userRepository;
 
         private static CourseService courseService;
         private static ExamService examService;
         private static StudentService studentService;
         private static TeacherService teacherService;
+        private static UserServiceImpl userServiceImpl;
 
         static {
-            studentRepository = new StudentRepositoryImpl(examRepository,courseRepository,teacherRepository);
-            teacherRepository = new TeacherRepositoryImpl(courseRepository,studentRepository,examRepository);
             courseRepository = new CourseRepositoryImpl(teacherRepository,studentRepository,examRepository);
             examRepository = new ExamRepositoryImpl(teacherRepository,studentRepository,courseRepository);
+            studentRepository = new StudentRepositoryImpl(examRepository,courseRepository,teacherRepository);
+            teacherRepository = new TeacherRepositoryImpl(courseRepository,studentRepository,examRepository);
+            userRepository = new UserRepositoryImpl();
 
-            studentService = new StudentServiceImpl(studentRepository,examRepository,teacherRepository,courseRepository);
-            teacherService = new TeacherServiceImpl(teacherRepository);
-            courseService = new CourseServiceImpl(courseRepository);
+            courseService = new CourseServiceImpl(courseRepository,teacherRepository);
             examService = new ExamServiceImpl(examRepository,studentRepository);
+            studentService = new StudentServiceImpl(studentRepository,examRepository,teacherRepository,courseRepository);
+            teacherService = new TeacherServiceImpl(teacherRepository,courseService);
+            userServiceImpl = new UserServiceImpl(userRepository);
+
         }
 
         public static StudentService getStudentService() {
@@ -55,5 +54,10 @@ public class ApplicationContext {
 
         public static ExamService getExamService() {
             return examService;
+
+        }
+
+        public static UserServiceImpl getUserService() {
+            return userServiceImpl;
         }
 }

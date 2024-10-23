@@ -44,6 +44,9 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 
     private static final String SET_TEACHER_AS_NULL_IN_EXAM = "update exams set teacher_id = null where teacher_id = ?";
 
+    private static final String SET_TEACHER_COURSE_NULL = "update teachers set course_id = null where teacher_id = ?";
+
+
     private static final String ALL_TEACHERS = "select * from teachers";
 
     private static final String GET_TEACHERS_COURSE = "select concat(t.first_name, ' ' , t.last_name) as full_name , c.course_title \n" +
@@ -96,8 +99,10 @@ public class TeacherRepositoryImpl implements TeacherRepository {
         ps.setString(4, teacher.getNationalCode());
         ps.setInt(5, teacher.getCourse().getCourseId());
         ps.executeUpdate();
-        addStudentsInATeacher(teacher);
+        //addStudentsInATeacher(teacher);
     }
+
+
 
     public void addStudentsInATeacher(Teacher teacher) throws SQLException {
         PreparedStatement ps = database.getPreparedStatement(INSERT_TEACHER_STUDENTS);
@@ -152,10 +157,12 @@ public class TeacherRepositoryImpl implements TeacherRepository {
                     rs.getString("first_name"),
                     rs.getString("last_name"),
                     rs.getDate("dob"),
-                    rs.getString("national_code"),
+                    rs.getString("national_code")
+                    /*if(this.getTeacherCourse())
                     getTeacherCourse(rs.getInt("teacher_id")),
+
                     getStudentsOfATeacher(rs.getInt("teacher_id")),
-                    getATeacherExams(rs.getInt("teacher_id"))
+                    getATeacherExams(rs.getInt("teacher_id"))*/
             ));
         }
         return teachers;
@@ -190,19 +197,23 @@ public class TeacherRepositoryImpl implements TeacherRepository {
         ps.executeUpdate();
     }
 
-    public Course getTeacherCourse(int teacher_id) throws SQLException {
+    public Optional<Course> getTeacherCourse(int teacher_id) throws SQLException {
         PreparedStatement ps = database.getPreparedStatement(GET_TEACHER_COURSE);
         ps.setInt(1, teacher_id);
         ResultSet rs = ps.executeQuery();
+        Optional<Course> courseOptional= Optional.empty();
         while (rs.next()) {
-            if (rs.getInt("teacher_id") == teacher_id) {
+            try {
                 for (Course item : courseRepository.getAll()) {
                     if (item.getCourseId() == rs.getInt("course_id"))
-                        return item;
+                        courseOptional = Optional.of(item);
                 }
+            }catch (Exception e) {
+                e.printStackTrace();
             }
+
         }
-        return null;
+        return courseOptional;
     }
 
     public Set<Student> getStudentsOfATeacher(int teacher_id) throws SQLException {
@@ -219,6 +230,13 @@ public class TeacherRepositoryImpl implements TeacherRepository {
             }
         }
         return students;
+    }
+
+    @Override
+    public void deleteTeacherCourse(Integer teacherId) throws SQLException {
+        PreparedStatement ps = database.getPreparedStatement(SET_TEACHER_COURSE_NULL);
+        ps.setInt(1, teacherId);
+        ps.executeUpdate();
     }
 
     public List<TeachersForACourseDto> getTeachersForACourse() throws SQLException {

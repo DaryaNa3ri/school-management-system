@@ -21,6 +21,11 @@ public class Course {
         this.courseUnit = courseUnit;
     }
 
+    public Course(String courseTitle, Integer courseUnit) {
+        this.courseTitle = courseTitle;
+        this.courseUnit = courseUnit;
+    }
+
     public Course(Integer courseId, String courseTitle, Integer courseUnit, Set<Teacher> teachers, Set<Student> students, Set<Exam> exams) {
         CourseId = courseId;
         this.courseTitle = courseTitle;
@@ -103,10 +108,7 @@ public class Course {
     public String toString() {
         return
                 "CourseId=" + CourseId +
-                ", courseTitle='" + courseTitle + '\'' +
-                ", courseUnit=" + courseUnit +
-                ", teachers=" + teachers +
-                ", students=" + students +
-                ", exams=" + exams;
+                ", courseTitle='" + courseTitle +
+                ", courseUnit=" + courseUnit;
     }
 }

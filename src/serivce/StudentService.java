@@ -2,7 +2,6 @@ package serivce;
 
 import model.Student;
 
-import java.sql.Date;
 import java.util.Set;
 
 public interface StudentService  {
@@ -11,7 +10,7 @@ public interface StudentService  {
     void showAll();
      void addNew(String firstName, String lastName, String dob , String nationalCode, Double gpu);
 
-    void addStudentInStudentExamTable(Integer studentId, Integer examId);
+    void addStudentInStudentExamTable(Integer studentId, Integer examId,Integer grade);
 
     void addStudentInStudentTeacherTable(Integer studentId1, Integer teacherId);
 
@@ -32,4 +31,10 @@ public interface StudentService  {
     void showStudentTeachers(Integer id1);
 
     void showStudentExams(Integer id2);
+
+    Student findById(Integer id);
+
+    Integer findIdByUserId(Integer userId);
+
+    void showStudentExamsGrade(Integer id);
 }

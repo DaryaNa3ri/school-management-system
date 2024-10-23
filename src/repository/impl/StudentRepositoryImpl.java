@@ -5,6 +5,7 @@ import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
+import model.dto.ExamStudentGradeDto;
 import repository.*;
 import util.Database;
 
@@ -54,7 +55,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     //language=SQL
     private static final String SET_STUDENT_AS_NULL_IN_STUDENT_TEACHER = "update student_teacher set student_id = null where student_id = ?";
     //language=SQL
-    private static final String INSERT_STUDENT_EXAMS = "INSERT INTO student_exam(student_id, national_code, exam_id) VALUES(?,?,?)";
+    private static final String INSERT_STUDENT_EXAMS = "INSERT INTO student_exam(student_id, national_code, exam_id,grade) VALUES(?,?,?,?)";
     //language=SQL
     private static final String INSERT_STUDENT_COURSES = "INSERT INTO student_course(course_id, student_id,national_code) VALUES(?,?,?)";
     //language=SQL
@@ -65,6 +66,15 @@ public class StudentRepositoryImpl implements StudentRepository {
     private static final String GET_STUDENT_EXAMS = "select student_id , exam_id from student_exam where student_id = ?";
     //language=SQL
     private static final String GET_STUDENT_COURSES = "select student_id , course_id from student_course where student_id = ?";
+    //language=SQL
+
+    private static final String GET_STUDENT_BY_USER_ID = "select student_id from students where user_id = ?";
+
+    private static final String GET_STUDENT_GRADES ="SELECT e.exam_title , se.grade\n" +
+            "from exams e\n" +
+            "join student_exam se\n" +
+            "on e.exam_id = se.exam_id\n" +
+            "where se.student_id = ?";
 
     private Database database = new Database();
 
@@ -124,11 +134,12 @@ public class StudentRepositoryImpl implements StudentRepository {
         //}
     }
 
-    public void addExamInStudent(Student student,Exam exam) throws SQLException {
+    public void addExamInStudent(Student student,Exam exam,Integer grade) throws SQLException {
         PreparedStatement exams = database.getPreparedStatement(INSERT_STUDENT_EXAMS);
             exams.setInt(1,student.getStudentId());
             exams.setString(2,student.getNationalCode());
             exams.setInt(3,exam.getExamId());
+            exams.setInt(4,grade);
             exams.executeUpdate();
 
     }
@@ -239,6 +250,7 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     public List<Exam> getExamsForAStudent(int studentId) throws SQLException {
         PreparedStatement ps = database.getPreparedStatement(GET_STUDENT_EXAMS);
+        ps.setInt(1, studentId);
         ResultSet rs = ps.executeQuery();
         List<Exam> exams = new ArrayList<>();
         while (rs.next()){
@@ -253,6 +265,7 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     public Set<Teacher> getTeachersForAStudent(int studentId) throws SQLException {
         PreparedStatement ps = database.getPreparedStatement(GET_STUDENT_TEACHERS);
+        ps.setInt(1, studentId);
         ResultSet rs = ps.executeQuery();
         Set<Teacher> teachers = new HashSet<>();
         while (rs.next()){
@@ -267,14 +280,13 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     public Set<Course> getCoursesForAStudent(int studentId) throws SQLException{
         PreparedStatement ps = database.getPreparedStatement(GET_STUDENT_COURSES);
+        ps.setDouble(1, studentId);
         ResultSet rs = ps.executeQuery();
         Set<Course> courses = new HashSet<>();
         while (rs.next()){
-            if (rs.getInt("student_id") == studentId){
                 for (Course item : courseRepository.getAll())
                     if (item.getCourseId() == rs.getInt("course_id"))
                         courses.add(item);
-            }
         }
         return courses;
     }
@@ -288,5 +300,33 @@ public class StudentRepositoryImpl implements StudentRepository {
         return studentCount;
     }
 
+    //todo:maybe its not useful
+    @Override
+    public Optional<Integer> findByUserId(Integer userId) throws SQLException {
+        PreparedStatement ps = database.getPreparedStatement(GET_STUDENT_BY_USER_ID);
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
+        Optional<Integer> optionalInt = Optional.empty();
+        while (rs.next()) {
+            optionalInt = Optional.of(rs.getInt("student_id"));
+        }
+        return optionalInt;
+    }
+
+
+public List<ExamStudentGradeDto> StudentExamsGrade(Integer id) throws SQLException {
+        PreparedStatement ps = database.getPreparedStatement(GET_STUDENT_GRADES);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        List<ExamStudentGradeDto> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(new ExamStudentGradeDto(
+                    rs.getString("exam_title"),
+                    rs.getInt("grade")
+            ));
+
+        }
+        return list;
+}
 
 }

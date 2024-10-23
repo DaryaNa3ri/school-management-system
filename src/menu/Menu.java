@@ -1,19 +1,68 @@
 package menu;
 
+import model.Student;
+import model.User;
+import util.ApplicationContext;
 import util.Util;
 import util.printer.Printer;
 
 public class Menu {
 
+
     public static void startMenu() {
-        Printer.print("**********   Welcome to School management system   **********");
-        mainMenu();
+        boolean exit = true;
+
+        while (exit) {
+            exit = loginMenu();
+
+        }
     }
+
+    private static boolean loginMenu() {
+        while (true) {
+            Printer.print("**********   Welcome to School management system   **********");
+            Printer.print("      1.      Login\n" +
+                    "     -1.      Exit");
+            int intInput = Util.getIntInput("choose your choice: ");
+            if (intInput == -1) {
+                return false;
+            }
+            String username = Util.getStringInput("Enter your username : ");
+            String password = Util.getStringInput("Enter your password : ");
+            User user = ApplicationContext.getUserService().login(username, password);
+            Printer.print("permission : "+user.getPermission());
+            Integer userId = user.getUserId();
+            switch (user.getPermission()) {
+                case "Admin" -> mainMenu();
+                case "Student" -> studentMenu(userId);
+            }
+
+        }
+    }
+
+    private static void studentMenu(Integer userId) {
+        boolean flag = true;
+        while (flag) {
+            Printer.print("**********   STUDENT EXAMS GRADE MENU   **********");
+            Printer.print("      1.      check grades\n" +
+                    "      -1.      logout");
+            Integer choice = Util.getIntInput("choose your choice: ");
+            if (choice == -1) {
+                flag = false;
+            }
+            else if (choice == 1) {
+                Integer idByUserId = ApplicationContext.getStudentService().findIdByUserId(userId);
+                ApplicationContext.getStudentService().showStudentExamsGrade(idByUserId);
+            }
+
+        }
+    }
+
 
     private static void mainMenu() {
         boolean flag = true;
         while (flag) {
-            Printer.print(" > > > > >   MAIN MENU   < < < < < ");
+            Printer.print(" > > > > >   ADMIN MAIN MENU   < < < < < ");
             Printer.print(">>Which part do you want? \n" +
                     "     1.      Student\n" +
                     "     2.      Teacher\n" +
@@ -25,15 +74,14 @@ public class Menu {
 
             switch (choice) {
                 case 1:
-                    StudentMenu.studentMenu();
+                    StudentMenu.studentMenuForAdmin();
                     break;
                 case 2:
-                    Printer.print("not available");
-                    //teacherMenu();
+
+                    TeacherMenu.teacherMenu();
                     break;
                 case 3:
-                    Printer.print("not available");
-                    //courseMenu();
+                    CourseMenu.courseMenu();
                     break;
                 case 4:
                     ExamMenu.examMenu();

@@ -8,7 +8,6 @@ import model.Teacher;
 import repository.ExamRepository;
 import repository.StudentRepository;
 import serivce.ExamService;
-import util.ApplicationContext;
 import util.printer.Printer;
 
 import java.sql.SQLException;

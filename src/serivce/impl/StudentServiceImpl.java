@@ -5,18 +5,16 @@ import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
+import model.dto.ExamStudentGradeDto;
 import repository.CourseRepository;
 import repository.ExamRepository;
 import repository.StudentRepository;
 import repository.TeacherRepository;
-import repository.impl.StudentRepositoryImpl;
 import serivce.StudentService;
 import util.printer.Printer;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 
 public class StudentServiceImpl implements StudentService {
@@ -29,9 +27,11 @@ public class StudentServiceImpl implements StudentService {
     public StudentServiceImpl(StudentRepository studentRepository, ExamRepository examRepository, TeacherRepository teacherRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository ;
         this.examRepository = examRepository ;
-        this.studentRepository = studentRepository;
-        this.examRepository = examRepository;
+        this.teacherRepository = teacherRepository ;
+        this.courseRepository = courseRepository ;
     }
+
+
 
     @Override
     public Set<Student> getAll() {
@@ -54,13 +54,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void addStudentInStudentExamTable(Integer studentId, Integer examId) {
+    public void addStudentInStudentExamTable(Integer studentId, Integer examId,Integer grade) {
         try {
             for (Student student : getAll()) {
                 if (student.getStudentId()==(studentId)) {
                     for (Exam exam : examRepository.getAll()) {
                         if (exam.getExamId()==(examId)) {
-                            studentRepository.addExamInStudent(student,exam);
+                            studentRepository.addExamInStudent(student,exam,grade);
                         }
                     }
                 }
@@ -152,7 +152,7 @@ public class StudentServiceImpl implements StudentService {
     public void showStudentcourses(Integer id) {
         try {
             for (Course course : studentRepository.getCoursesForAStudent(id))
-                System.out.println(course);
+                System.out.println("Course id : ".concat(course.getCourseId().toString()).concat(", Course title : ").concat(course.getCourseTitle()));
         }catch (SQLException e){
             Printer.print("database connection failed");
         }
@@ -162,7 +162,8 @@ public class StudentServiceImpl implements StudentService {
     public void showStudentTeachers(Integer id) {
         try {
             for (Teacher teacher : studentRepository.getTeachersForAStudent(id))
-                System.out.println(teacher);
+                System.out.println("teacher id : ".concat(teacher.getTeacherId().toString()).concat("teacher name : ")
+                        .concat(teacher.getFirstName()).concat(" ").concat(teacher.getLastName()));
         }catch (SQLException e){
             Printer.print("database connection failed");
         }
@@ -172,7 +173,7 @@ public class StudentServiceImpl implements StudentService {
     public void showStudentExams(Integer id) {
         try {
             for (Exam exam : studentRepository.getExamsForAStudent(id))
-                System.out.println(exam);
+                System.out.println("exam id : ".concat(exam.getExamId().toString()).concat(" exam name : "));
         }catch (SQLException e){
             Printer.print("database connection failed");
         }
@@ -180,9 +181,46 @@ public class StudentServiceImpl implements StudentService {
 
     public void showAll(){
         try {
-            Printer.printAllStudents(studentRepository.getAll());
+            for (Student student : studentRepository.getAll()) {
+                System.out.println("student id : ".concat(student.getStudentId().toString()).concat(", student name : ").concat(student.getFirstName()).concat(" ").concat(student.getLastName()));
+            }
 
         }catch (SQLException e) {
+            Printer.print("database connection failed");
+        }
+    }
+
+
+
+public Student findById(Integer id) {
+    try {
+        if (studentRepository.findById(id).isPresent()) {
+            return studentRepository.findById(id).get();
+        }
+    }catch (SQLException e) {
+        System.out.println("something went wrong");;
+    }
+    return null;
+}
+
+//todo:maybe its not necessary
+    @Override
+    public Integer findIdByUserId(Integer userId) {
+        try {
+            if (studentRepository.findByUserId(userId).isPresent()) {
+                return studentRepository.findByUserId(userId).get();
+            }
+        }catch (SQLException e) {
+            System.out.println("something went wrong");;
+        }
+        return null;
+    }
+
+    public void showStudentExamsGrade(Integer id){
+        try {
+            for (ExamStudentGradeDto e: studentRepository.StudentExamsGrade(id))
+                System.out.println( e);
+        }catch (SQLException e){
             Printer.print("database connection failed");
         }
     }

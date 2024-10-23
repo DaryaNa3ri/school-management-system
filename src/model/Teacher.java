@@ -16,12 +16,29 @@ public class Teacher {
     //it most be in exam repository
     private List<Exam> exams;
 
+    public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode,Course teacherCourse) {
+        this.teacherId = teacherId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.nationalCode = nationalCode;
+        this.course = teacherCourse;
+    }
+
     public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode) {
         this.teacherId = teacherId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
         this.nationalCode = nationalCode;
+    }
+
+    public Teacher(String firstName, String lastName, Date dob, String nationalCode, Course teacherCourse) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.nationalCode = nationalCode;
+        this.course = teacherCourse;
     }
 
     public Teacher(Integer teacherId, String firstName, String lastName, Date dob, String nationalCode, Course course, Set<Student> students, List<Exam> exams) {
@@ -125,9 +142,6 @@ public class Teacher {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dob=" + dob +
-                ", nationalCode='" + nationalCode + '\'' +
-                ", course=" + course +
-                ", students=" + students +
-                ", exams=" + exams;
+                ", nationalCode='" + nationalCode ;
     }
 }

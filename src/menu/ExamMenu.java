@@ -101,7 +101,8 @@ public class ExamMenu {
                 Printer.print(" > > > > >   ALL STUDENTS   < < < < < ");
                 ApplicationContext.getStudentService().showAll();
                 Integer studentId = Util.getIntInput(">> Please enter student id: ");
-                ApplicationContext.getExamService().addExamInStudentExamTable(examId, studentId);
+                Integer grade1 = Util.getIntInput( ">> Please enter grade of this student");
+                ApplicationContext.getStudentService().addStudentInStudentExamTable(studentId, examId,grade1);
                 Printer.print("exam added successfully :)");
                 break;
             case -1:

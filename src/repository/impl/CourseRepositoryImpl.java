@@ -107,7 +107,7 @@ public class CourseRepositoryImpl implements CourseRepository {
         ps.setString(1,course.getCourseTitle());
         ps.setInt(2,course.getCourseUnit());
         ps.executeUpdate();
-        addStudentsInACourse(course);
+        //addStudentsInACourse(course);
     }
 
     //todo it should be in service
@@ -134,7 +134,7 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     public void addStudentsInACourse(Course course) throws SQLException {
         PreparedStatement courses = database.getPreparedStatement(INSERT_COURSE_STUDENTS);
-        for (Student item : course.getStudents()) {
+        for (Student item : studentRepository.getAll()) {
             courses.setInt(2,item.getStudentId());
             courses.setString(3,item.getNationalCode());
             courses.setInt(1,course.getCourseId());

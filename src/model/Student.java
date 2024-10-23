@@ -148,7 +148,6 @@ public class Student {
                 ", firstName = " + firstName +
                 ", lastName = " + lastName +
                 ", dob = " + dob +
-                ", nationalCode = " + nationalCode +
-                ", gpu = " + gpu;
+                ", nationalCode = " + nationalCode;
     }
 }

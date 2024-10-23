@@ -5,19 +5,19 @@ import java.util.Scanner;
 public class Util {
     private static Scanner sc = new Scanner(System.in);
 
-    public static int getIntInput(String prompt) {
+    public static Integer getIntInput(String prompt) {
         System.out.print("->   " + prompt);
-        return sc.nextInt();
+        return Integer.parseInt(sc.nextLine());
     }
 
     public static String getStringInput(String prompt) {
         System.out.print("->   " + prompt);
-        return sc.next();
+        return sc.nextLine();
     }
 
     public static double getDoubleInput(String message) {
         System.out.print("->   " +message);
-        return sc.nextDouble();
+        return Double.parseDouble(sc.nextLine());
     }
 
 }

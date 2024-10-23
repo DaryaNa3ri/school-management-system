@@ -4,9 +4,11 @@ import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
+import model.dto.ExamStudentGradeDto;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface StudentRepository extends BaseRepository<Student>{
@@ -17,7 +19,7 @@ public interface StudentRepository extends BaseRepository<Student>{
 
     void addCoursesInStudent(Student student,Course course) throws SQLException;
 
-    void addExamInStudent(Student student,Exam exam) throws SQLException;
+    void addExamInStudent(Student student,Exam exam,Integer grade) throws SQLException;
 
     void removeStudentFromStudentExamTable(Integer studentId) throws SQLException;
 
@@ -34,4 +36,7 @@ public interface StudentRepository extends BaseRepository<Student>{
     int getCountOfStudents() throws SQLException;
 
 
+    Optional<Integer> findByUserId(Integer userId) throws SQLException;
+
+    List<ExamStudentGradeDto> StudentExamsGrade(Integer id) throws SQLException;
 }
