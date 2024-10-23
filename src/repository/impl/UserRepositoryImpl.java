@@ -21,6 +21,7 @@ public class UserRepositoryImpl implements BaseRepository<User> {
     private Database db = new Database();
 
     public Optional<User> findByUsernameAndPassword(String username, String password) throws SQLException {
+
         PreparedStatement ps = db.getPreparedStatement(FIND_USER_BY_USERNAME_PASSWORD_QUERY);
         ps.setString(1, username);
         ps.setString(2, password);

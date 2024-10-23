@@ -83,7 +83,7 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
         }catch (SQLException e) {
-            Printer.print("something went wrong");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -100,7 +100,7 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
         }catch (SQLException e) {
-            Printer.print("something went wrong");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -109,7 +109,7 @@ public class StudentServiceImpl implements StudentService {
         try {
             studentRepository.saveOrUpdate(new Student(studentId,firstName,lastName,Date.valueOf(dob),nationalCode,gpu));
         }catch (SQLException e){
-            Printer.print("something went wrong");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -118,7 +118,7 @@ public class StudentServiceImpl implements StudentService {
         try {
             studentRepository.delete(studentId);
         }catch (SQLException | NotFoundException e){
-            Printer.print("database connection problem");}
+            Printer.print("There is problem with connecting to database:(");}
     }
 
     @Override
@@ -135,7 +135,7 @@ public class StudentServiceImpl implements StudentService {
         try {
             studentRepository.removeStudentFromStudentTeacherTable(studentId);
         } catch (SQLException e) {
-            Printer.print("database connection failed");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -144,7 +144,7 @@ public class StudentServiceImpl implements StudentService {
         try {
             studentRepository.removeStudentFromStudentCourseTable(studentId);
         } catch (SQLException e) {
-            Printer.print("database connection failed");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -165,7 +165,7 @@ public class StudentServiceImpl implements StudentService {
                 System.out.println("teacher id : ".concat(teacher.getTeacherId().toString()).concat("teacher name : ")
                         .concat(teacher.getFirstName()).concat(" ").concat(teacher.getLastName()));
         }catch (SQLException e){
-            Printer.print("database connection failed");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -175,7 +175,7 @@ public class StudentServiceImpl implements StudentService {
             for (Exam exam : studentRepository.getExamsForAStudent(id))
                 System.out.println("exam id : ".concat(exam.getExamId().toString()).concat(" exam name : "));
         }catch (SQLException e){
-            Printer.print("database connection failed");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -186,7 +186,7 @@ public class StudentServiceImpl implements StudentService {
             }
 
         }catch (SQLException e) {
-            Printer.print("database connection failed");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -198,7 +198,7 @@ public Student findById(Integer id) {
             return studentRepository.findById(id).get();
         }
     }catch (SQLException e) {
-        System.out.println("something went wrong");;
+        System.out.println("There is problem with connecting to database:(");;
     }
     return null;
 }
@@ -211,7 +211,7 @@ public Student findById(Integer id) {
                 return studentRepository.findByUserId(userId).get();
             }
         }catch (SQLException e) {
-            System.out.println("something went wrong");;
+            System.out.println("There is problem with connecting to database:(");;
         }
         return null;
     }
@@ -221,7 +221,7 @@ public Student findById(Integer id) {
             for (ExamStudentGradeDto e: studentRepository.StudentExamsGrade(id))
                 System.out.println( e);
         }catch (SQLException e){
-            Printer.print("database connection failed");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 }

@@ -1,4 +1,4 @@
-package menu;
+package trash;
 
 import util.ApplicationContext;
 import util.Util;

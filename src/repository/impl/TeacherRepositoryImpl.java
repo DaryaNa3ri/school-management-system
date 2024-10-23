@@ -1,12 +1,10 @@
 package repository.impl;
 
-import exeption.NotFoundException;
 import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
-import model.dto.ExamsForATeacherDto;
-import model.dto.TeachersForACourseDto;
+import trash.TeachersForACourseDto;
 import repository.*;
 import util.Database;
 

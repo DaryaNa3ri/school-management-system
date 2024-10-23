@@ -1,4 +1,4 @@
-package menu;
+package trash;
 
 import model.Course;
 import util.ApplicationContext;

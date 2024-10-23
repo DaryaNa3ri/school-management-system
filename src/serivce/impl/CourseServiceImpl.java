@@ -37,7 +37,7 @@ public class CourseServiceImpl implements CourseService {
         try {
             courseRepository.saveOrUpdate(new Course(title,unit));
         }catch (SQLException e) {
-            System.out.println("something went wrong");;
+            System.out.println("");;
         }
     }
 

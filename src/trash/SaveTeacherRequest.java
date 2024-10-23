@@ -1,9 +1,6 @@
-package model.dto;
-
-import model.Teacher;
+package trash;
 
 import java.sql.Date;
-import java.util.Objects;
 
 public class SaveTeacherRequest {
 

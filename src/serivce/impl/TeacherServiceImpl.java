@@ -5,11 +5,9 @@ import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
-import model.dto.SaveTeacherRequest;
-import model.dto.TeacherResponse;
-import repository.CourseRepository;
+import trash.SaveTeacherRequest;
+import trash.TeacherResponse;
 import repository.TeacherRepository;
-import repository.impl.TeacherRepositoryImpl;
 import serivce.CourseService;
 import serivce.TeacherService;
 import util.printer.Printer;
@@ -80,7 +78,7 @@ public class TeacherServiceImpl implements TeacherService {
         try {
             teacherRepository.saveOrUpdate(new Teacher(firstName,lastName, Date.valueOf(dob),nationalCode, teacherCourse));
         }catch (SQLException e) {
-            Printer.print("something went wrong");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 
@@ -96,7 +94,7 @@ public class TeacherServiceImpl implements TeacherService {
         try {
             teacherRepository.saveOrUpdate(new Teacher(teacherId,firstName,lastName, Date.valueOf(dob) ,nationalCode, teacherCourse));
         } catch (SQLException e) {
-            Printer.print("something went wrong");
+            Printer.print("There is problem with connecting to database:(");
         }
     }
 

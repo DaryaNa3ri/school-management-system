@@ -1,7 +1,6 @@
-package menu;
+package trash;
 
 import util.ApplicationContext;
-import util.Database;
 import util.Util;
 import util.printer.Printer;
 
@@ -150,7 +149,7 @@ public class ExamMenu {
         while (flag) {
         Printer.print(" > > > > >   SHOW EXAM MENU   < < < < < ");
         Printer.print(
-                "     1.      show all exams\n" +
+                        "     1.     show all exams\n" +
                         "     2.     show exam students\n" +
                         "     3.     show exam teacher\n" +
                         "     4.     show exam course\n" +

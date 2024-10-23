@@ -1,6 +1,5 @@
-package menu;
+package trash;
 
-import model.Student;
 import util.ApplicationContext;
 import util.Util;
 import util.printer.Printer;

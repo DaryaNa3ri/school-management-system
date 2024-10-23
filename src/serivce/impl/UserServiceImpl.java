@@ -27,7 +27,10 @@ public class UserServiceImpl {
             }
             return optionalUser.get();
         }catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("user not found");
         }
+        return null;
     }
+
+
 }

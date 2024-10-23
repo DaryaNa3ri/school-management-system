@@ -1,4 +1,4 @@
-package model.dto;
+package trash;
 
 public class TeacherResponse {
     private Integer teacherId;

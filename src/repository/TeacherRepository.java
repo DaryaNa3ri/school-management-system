@@ -4,8 +4,7 @@ import model.Course;
 import model.Exam;
 import model.Student;
 import model.Teacher;
-import model.dto.ExamsForATeacherDto;
-import model.dto.TeachersForACourseDto;
+import trash.TeachersForACourseDto;
 
 import java.sql.SQLException;
 import java.util.List;

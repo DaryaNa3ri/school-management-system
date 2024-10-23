@@ -1,4 +1,4 @@
-package model.dto;
+package trash;
 
 public class ExamsForATeacherDto {
     private String examTitle;
